@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         mavenCentral()
@@ -7,6 +8,12 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
     }
+}
+
+
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
 
@@ -37,4 +44,22 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
+
+apply plugin: 'application'
+
+mainClassName = 'com.example.HelloWorldKt'
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    duplicatesStrategy = 'exclude'
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
 
