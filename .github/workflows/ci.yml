@@ -1,0 +1,24 @@
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-java@v3
+      - name: Set up JDK and Kotlin
+        with:
+          java-version: 11
+          kotlin-version: 1.9.10
+
+      - name: Build and Generate Artifact
+        run: ./gradlew build
+
+      - uses: actions/upload-artifact@v3
+      - name: Upload Artifact
+        with:
+          name: HelloWorld.jar
+          path: build/libs/HelloWorld.jar
